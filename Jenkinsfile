@@ -15,7 +15,7 @@ def buildPullRequest() {
   node('linux') {
     try {
       checkoutStage()
-      checkForLabel()
+      checkForLabel() // shared library
       buildDockerImageStage()
       lintAndUnitTestStages()
       acceptanceTestStage()
@@ -33,14 +33,15 @@ def buildMaster() {
   node('linux') {
     try {
       checkoutStage()
-      incrementTag()
+      incrementTag() // shared library
       buildDockerImageStage()
       lintAndUnitTestStages()
       acceptanceTestStage()
       a11yLintStage()
-      tagRepo()
+      tagRepo() // shared library
       publishImageStage()
       deployToPreintStage()
+      updatePreintManifest() // shared library
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
       throw exception
@@ -56,6 +57,7 @@ def buildAcceptance() {
       checkoutStage()
       acceptanceTestPreintStage()
       deployToIntegrationStage()
+      updateIntegrationManifest() // shared library
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
       throw exception
@@ -167,9 +169,15 @@ def publishImageStage() {
 
 def deployToPreintStage() {
   stage('Deploy to Preint') {
-      withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
-        sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/deploy-cans/buildWithParameters?token=deployPreint&version=${newTag}'"
+    withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
+      sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/deploy-cans/buildWithParameters?token=deployPreint&version=${newTag}'"
     }
+  }
+}
+
+def updatePreintManifest() {
+  stage('Update Pre-int manifest') {
+    updateManifest("cans", "preint", GITHUB_CREDENTIALS_ID, newTag)
   }
 }
 
@@ -181,6 +189,12 @@ def deployToIntegrationStage() {
             string(name: 'inventory', value: 'inventories/integration/hosts.yml')
           ],
           wait: false
+  }
+}
+
+def updateIntegrationManifest() {
+  stage('Update Integration manifest') {
+    updateManifest("cans", "integration", GITHUB_CREDENTIALS_ID, newTag)
   }
 }
 
