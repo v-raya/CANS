@@ -86,7 +86,7 @@ def incrementTag() {
 
 def buildDockerImageStage() {
   stage('Build Docker Image') {
-    app = docker.build("cwds/cans:${newTag}", "-f docker/web/Dockerfile .")
+    app = docker.build("cwds/cans:${env.BUILD_ID}", "-f docker/web/Dockerfile .")
   }
 }
 
@@ -153,14 +153,14 @@ def acceptanceTestPreintStage() {
 def publishImageStage() {
   stage('Publish to Dockerhub') {
     withDockerRegistry([credentialsId: DOCKER_REGISTRY_CREDENTIALS_ID]) {
-      app.push()
+      app.push(newTag)
       app.push('latest')
     }
   }
   stage('Trigger Security scan') {
     build job: 'tenable-scan', parameters: [
         [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans'],
-        [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${newTag}"]
+        [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: newTag]
     ]
   }
 }
