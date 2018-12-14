@@ -1,5 +1,8 @@
+@Library('jenkins-pipeline-utils') _
+
 def app
 DOCKER_REGISTRY_CREDENTIALS_ID = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
+GITHUB_CREDENTIALS_ID = '433ac100-b3c2-4519-b4d6-207c029a103b'
 JENKINS_MANAGEMENT_DOCKER_REGISTRY_CREDENTIALS_ID = '3ce810c0-b697-4ad1-a1b7-ad656b99686e'
 
 switch(env.BUILD_JOB_TYPE) {
@@ -12,6 +15,7 @@ def buildPullRequest() {
   node('linux') {
     try {
       checkoutStage()
+      checkForLabel()
       buildDockerImageStage()
       lintAndUnitTestStages()
       acceptanceTestStage()
@@ -29,10 +33,12 @@ def buildMaster() {
   node('linux') {
     try {
       checkoutStage()
+      incrementTag()
       buildDockerImageStage()
       lintAndUnitTestStages()
       acceptanceTestStage()
       a11yLintStage()
+      tagRepo()
       publishImageStage()
       deployToPreintStage()
     } catch(Exception exception) {
@@ -66,9 +72,21 @@ def checkoutStage() {
   }
 }
 
+def checkForLabel() {
+  stage('Verify SemVer Label') {
+    checkForLabel('cans')
+   } 
+}
+
+def incrementTag() {
+  stage('Increment Tag') {
+    newTag = newSemVer()
+  }
+}
+
 def buildDockerImageStage() {
   stage('Build Docker Image') {
-    app = docker.build("cwds/cans:${env.BUILD_ID}", "-f docker/web/Dockerfile .")
+    app = docker.build("cwds/cans:${newTag}", "-f docker/web/Dockerfile .")
   }
 }
 
@@ -117,6 +135,12 @@ def a11yLintStage() {
   }
 }
 
+def tagRepo() {
+  stage('Tag Repo'){
+    tagGithubRepo(newTag, GITHUB_CREDENTIALS_ID)
+  }
+}
+
 def acceptanceTestPreintStage() {
   stage('Acceptance Test Preint') {
     withDockerRegistry([credentialsId: JENKINS_MANAGEMENT_DOCKER_REGISTRY_CREDENTIALS_ID]) {
@@ -136,7 +160,7 @@ def publishImageStage() {
   stage('Trigger Security scan') {
     build job: 'tenable-scan', parameters: [
         [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'cans'],
-        [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${env.BUILD_ID}"]
+        [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: "${newTag}"]
     ]
   }
 }
@@ -144,7 +168,7 @@ def publishImageStage() {
 def deployToPreintStage() {
   stage('Deploy to Preint') {
       withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
-        sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/deploy-cans/buildWithParameters?token=deployPreint&version=${env.BUILD_ID}'"
+        sh "curl -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/preint/job/deploy-cans/buildWithParameters?token=deployPreint&version=${newTag}'"
     }
   }
 }
