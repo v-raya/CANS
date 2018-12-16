@@ -1,43 +1,40 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Button } from '@cwds/components'
 
-class AddCansButton extends Component {
+class AddCansLink extends Component {
   isDisabled = () => {
     const { disabled } = this.props
     return disabled === 'true' || disabled === true
   }
 
-  renderButton = () => {
+  renderLinkText() {
     return (
-      <Button
-        className={'button-fix-primary card-header-cans-button'}
-        id="new-cans-button"
-        disabled={this.isDisabled()}
-      >
+      <span id={'add-new-cans'} className={'add-cans-span'}>
         Add CANS
-      </Button>
+      </span>
     )
   }
 
   render() {
     const { clientIdentifier } = this.props
     return this.isDisabled() ? (
-      this.renderButton()
+      this.renderLinkText()
     ) : (
-      <Link to={`./${clientIdentifier}/assessments`}>{this.renderButton()}</Link>
+      <Link id={'add-cans-link'} to={`/clients/${clientIdentifier}/assessments`}>
+        {this.renderLinkText()}
+      </Link>
     )
   }
 }
 
-AddCansButton.propTypes = {
+AddCansLink.propTypes = {
   clientIdentifier: PropTypes.string.isRequired,
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 }
 
-AddCansButton.defaultProps = {
+AddCansLink.defaultProps = {
   disabled: false,
 }
 
-export default AddCansButton
+export default AddCansLink

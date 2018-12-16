@@ -804,7 +804,13 @@ export const printFixture =
 
 export const assessmentInProgress = {
   id: 97500,
-  person: { id: 1, identifier: 'B2yE2Ao0X5' },
+  person: {
+    id: 1,
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
   status: 'IN_PROGRESS',
   the_case: {
     external_id: '4444-333-4444-88888888',
@@ -842,7 +848,13 @@ export const assessmentCompleted = {
 
 export const assessmentWithNoUpdateInfo = {
   id: 97502,
-  person: { id: 1, identifier: 'B2yE2Ao0X8' },
+  person: {
+    id: 1,
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
   status: 'IN_PROGRESS',
   event_date: '2018-01-05',
   created_timestamp: '2018-06-06T15:37:32.000Z',
@@ -854,4 +866,225 @@ export const assessmentWithNoUpdateInfo = {
     name: 'Alameda',
   },
   conducted_by: 'John Dow',
+}
+
+// Client with Case Number
+export const assessmentInProgressWithCaseNumber = {
+  id: 97501,
+  person: {
+    id: 1,
+    identifier: '123',
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
+  status: 'IN_PROGRESS',
+  service_source_ui_id: '4444-333-4444-88888888',
+  service_source: 'CASE',
+
+  event_date: '2015-10-10',
+  updated_timestamp: '2015-06-06T15:37:32.000Z',
+  updated_by: {
+    first_name: 'Name 1',
+    last_name: 'LastName 1',
+  },
+  county: {
+    name: 'Alameda',
+  },
+}
+
+export const assessmentCompletedWithCaseNumber = {
+  id: 97502,
+  person: {
+    id: 1,
+    identifier: '123',
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
+  status: 'COMPLETED',
+  service_source_ui_id: '4444-333-4444-88888888',
+  service_source: 'CASE',
+  event_date: '2018-01-05',
+  updated_timestamp: '2018-06-06T15:37:32.000Z',
+  updated_by: {
+    first_name: 'Name 2',
+    last_name: 'LastName 2',
+  },
+  county: {
+    name: 'Alameda',
+  },
+}
+
+export const assessmentWithNoUpdateInfoWithCaseNumber = {
+  id: 97503,
+  person: {
+    id: 1,
+    identifier: '123',
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
+  status: 'IN_PROGRESS',
+  service_source_ui_id: '4444-333-4444-88888888',
+  service_source: 'CASE',
+  event_date: '2018-01-05',
+  created_timestamp: '2018-06-06T15:37:32.000Z',
+  created_by: {
+    first_name: 'Name 3',
+    last_name: 'LastName 3',
+  },
+  county: {
+    name: 'Alameda',
+  },
+}
+
+// Client with Referral Number
+export const assessmentInProgressWithReferralNumber = {
+  id: 97501,
+  person: {
+    id: 1,
+    identifier: '123',
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
+  status: 'IN_PROGRESS',
+  service_source_ui_id: '4444-333-4444-88888888',
+  service_source: 'REFERRAL',
+
+  event_date: '2015-10-10',
+  updated_timestamp: '2015-06-06T15:37:32.000Z',
+  updated_by: {
+    first_name: 'Name 1',
+    last_name: 'LastName 1',
+  },
+  county: {
+    name: 'Alameda',
+  },
+}
+
+export const assessmentCompletedWithReferralNumber = {
+  id: 97502,
+  person: {
+    id: 1,
+    identifier: '123',
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
+  status: 'COMPLETED',
+  service_source_ui_id: '4444-333-4444-88888888',
+  service_source: 'REFERRAL',
+  event_date: '2018-01-05',
+  updated_timestamp: '2018-06-06T15:37:32.000Z',
+  updated_by: {
+    first_name: 'Name 2',
+    last_name: 'LastName 2',
+  },
+  county: {
+    name: 'Alameda',
+  },
+}
+
+export const assessmentWithNoUpdateInfoWithReferralNumber = {
+  id: 97503,
+  person: {
+    id: 1,
+    identifier: '123',
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
+  status: 'IN_PROGRESS',
+  service_source_ui_id: '4444-333-4444-88888888',
+  service_source: 'REFERRAL',
+  event_date: '2018-01-05',
+  created_timestamp: '2018-06-06T15:37:32.000Z',
+  created_by: {
+    first_name: 'Name 3',
+    last_name: 'LastName 3',
+  },
+  county: {
+    name: 'Alameda',
+  },
+}
+
+// Client with No Client and Referral Number
+export const assessmentInProgressWithNoClientandReferralNumber = {
+  id: 97501,
+  person: {
+    id: 1,
+    identifier: '123',
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
+  status: 'IN_PROGRESS',
+  service_source_ui_id: '',
+  service_source: '',
+  event_date: '2015-10-10',
+  updated_timestamp: '2015-06-06T15:37:32.000Z',
+  updated_by: {
+    first_name: 'Name 1',
+    last_name: 'LastName 1',
+  },
+  county: {
+    name: 'Alameda',
+  },
+}
+
+export const assessmentCompletedWithNoClientandReferralNumber = {
+  id: 97502,
+  person: {
+    id: 1,
+    identifier: '123',
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
+  status: 'COMPLETED',
+  service_source_ui_id: '',
+  service_source: '',
+  event_date: '2018-01-05',
+  updated_timestamp: '2018-06-06T15:37:32.000Z',
+  updated_by: {
+    first_name: 'Name 2',
+    last_name: 'LastName 2',
+  },
+  county: {
+    name: 'Alameda',
+  },
+}
+
+export const assessmentWithNoUpdateInfoWithNoClientandReferralNumber = {
+  id: 97503,
+  person: {
+    id: 1,
+    identifier: '123',
+    first_name: 'Casey',
+    middle_name: 'Middle',
+    last_name: 'Test',
+    suffix: 'Jr',
+  },
+  status: 'IN_PROGRESS',
+  service_source_ui_id: '',
+  service_source: '',
+  event_date: '2018-01-05',
+  created_timestamp: '2018-06-06T15:37:32.000Z',
+  created_by: {
+    first_name: 'Name 3',
+    last_name: 'LastName 3',
+  },
+  county: {
+    name: 'Alameda',
+  },
 }

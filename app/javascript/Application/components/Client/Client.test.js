@@ -6,6 +6,8 @@ import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import Grid from '@material-ui/core/Grid'
 import { MemoryRouter } from 'react-router-dom'
+import ClientAssessmentHistory from './AssessmentHistory/ClientAssessmentHistory'
+import ClientAssessmentHistoryLoadingBoundary from './AssessmentHistory/ClientAssessmentHistoryLoadingBoundary'
 
 const client = {
   id: 1,
@@ -44,6 +46,14 @@ describe('<Client />', () => {
 
     it('renders with <CardContent /> component', () => {
       expect(getLength(CardContent)).toBe(1)
+    })
+
+    it('renders with 1 <ClientAssessmentHistoryLoadingBoundary /> component', () => {
+      expect(getLength(ClientAssessmentHistoryLoadingBoundary)).toBe(1)
+    })
+
+    it('renders with 1 <ClientAssessmentHistory /> component', () => {
+      expect(getLength(ClientAssessmentHistory)).toBe(1)
     })
   })
 

@@ -8,7 +8,7 @@ import { navigation } from '../../util/constants'
 
 describe('AssessmentLink', () => {
   const prepareWrapper = (assessment, navFrom) => {
-    return shallow(<AssessmentLink assessment={assessment} navFrom={navFrom} />)
+    return shallow(<AssessmentLink assessment={assessment} navFrom={navFrom} key={assessment.id} linkText={'CANS'} />)
   }
 
   it('renders a Link component', () => {
@@ -23,7 +23,7 @@ describe('AssessmentLink', () => {
     expect(wrapper.length).toEqual(1)
   })
 
-  it('the "to" property includes the person id and the assessment id', () => {
+  it('the "to" property includes the person identifier and the assessment id', () => {
     const { id, person } = assessmentInProgress
     const wrapper = prepareWrapper(assessmentInProgress, 'CHILD_LIST')
 

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import SearchAssessmentHistoryRecord from './SearchAssessmentHistoryRecord'
 import { AssessmentService } from '../Assessment/Assessment.service'
 import { LoadingState } from '../../util/loadingHelper'
-import moment from 'moment'
-import { AssessmentStatus } from '../Assessment/AssessmentHelper'
+import { AssessmentStatus, sortAssessmentsByDate } from '../Assessment'
 
 class SearchAssessmentHistory extends Component {
   constructor(props) {
@@ -24,7 +23,7 @@ class SearchAssessmentHistory extends Component {
     AssessmentService.getAllAssessments()
       .then(assessments => {
         const filteredAssessments = assessments.filter(assessment => assessment.status === AssessmentStatus.inProgress)
-        const sortedAssessments = this.sortAssessmentsByDate('desc', filteredAssessments)
+        const sortedAssessments = sortAssessmentsByDate(filteredAssessments, false, 'desc')
         this.setState({
           assessments: sortedAssessments.slice(0, this.props.numAssessments),
           fetchStatus: LoadingState.ready,
@@ -44,17 +43,6 @@ class SearchAssessmentHistory extends Component {
         <SearchAssessmentHistoryRecord navFrom={this.props.navFrom} assessment={assessment} key={assessment.id} />
       ))
     )
-  }
-
-  sortAssessmentsByDate(direction, assessments) {
-    const newAssessmentList = assessments.map(assessment => {
-      const timestamp = moment(assessment.updated_timestamp || assessment.created_timestamp)
-      return { ...assessment, timestamp }
-    })
-    newAssessmentList.sort((left, right) => {
-      return direction === 'asc' ? left.timestamp.diff(right.timestamp) : right.timestamp.diff(left.timestamp)
-    })
-    return newAssessmentList
   }
 
   render() {

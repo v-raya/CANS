@@ -86,7 +86,7 @@ div.warning-modal-footer.modal-footer
     color: #FFF
 
 //********************
-// AssessmentRecordInfo
+// Ellipsis
 //********************
 .icon-ellipsis
   float: right
@@ -96,7 +96,25 @@ div.warning-modal-footer.modal-footer
   font-weight: 600
 .popoverbody
   font-size: 1.4rem
-.no-margin
-  margin: 0
-.mid-gray
-  color: $mid-gray
+
+//********************
+// AssessmentRecordInfo
+//********************
+.assessment-record-client-name
+  font-weight: 600
+
+.status-icon-wrapper
+  margin-bottom: .3rem
+  > i, svg
+    vertical-align: middle
+    position: relative
+    margin-right: 1rem
+    bottom: .2rem
+  > span
+    font-weight: 600
+
+.assessment-info
+  > p
+    margin: 0
+  > p:nth-child(3), p:nth-child(4), p:nth-child(5), p:nth-child(6)
+    color: $gray

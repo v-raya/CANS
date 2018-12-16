@@ -16,7 +16,7 @@
     "test:a11y": "bundle exec rspec spec/a11y"
   },
   "dependencies": {
-    "@cwds/components": "^0.5.6",
+    "@cwds/components": "^0.5.9",
     "@cwds/core": "^0.5.6",
     "@material-ui/core": "^3.1.1",
     "@material-ui/icons": "^3.0.1",

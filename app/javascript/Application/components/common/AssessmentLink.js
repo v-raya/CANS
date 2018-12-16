@@ -6,6 +6,7 @@ import { historyRecordUrlSwitcher } from '../../util/historyRecordUrlSwitcher'
 
 class AssessmentLink extends PureComponent {
   render() {
+    const { linkText } = this.props
     const { id, event_date: eventDate, person } = this.props.assessment
     const formattedEventDate = isoToLocalDate(eventDate)
     const clientId = person.identifier
@@ -14,7 +15,7 @@ class AssessmentLink extends PureComponent {
 
     return (
       <Link to={linkUrl} className={'underlined'}>
-        {`${formattedEventDate} CANS`}
+        {`${formattedEventDate}${linkText === '' ? '' : ` ${linkText}`}`}
       </Link>
     )
   }
@@ -22,6 +23,7 @@ class AssessmentLink extends PureComponent {
 
 AssessmentLink.propTypes = {
   assessment: PropTypes.object.isRequired,
+  linkText: PropTypes.string.isRequired,
   navFrom: PropTypes.string.isRequired,
 }
 

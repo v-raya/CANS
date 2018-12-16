@@ -29,9 +29,7 @@ describe('<StaffTable />', () => {
 
   it('shows all rows with pagination', () => {
     const grid = render([]).find(DataGrid)
-    const moreThanEnough = 10
     expect(grid.props().showPagination).toBe(true)
-    expect(grid.props().defaultPageSize).toBe(moreThanEnough)
     expect(grid.props().pageSizeOptions).toEqual([10, 25, 50])
   })
 

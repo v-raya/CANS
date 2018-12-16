@@ -56,6 +56,33 @@
 .history-item-info
   color: $label
 
+.card-header-client
+  padding: 1.5rem 3rem
+  line-height: 2.7rem
+.card-header-client-assessment-history
+  > div:first-child
+    > a:nth-child(2), span:nth-child(2)
+      float: right
+      line-height: inherit
+      vertical-align: middle
+      font-size: inherit
+    .add-cans-span
+      color: $light-blue
+      text-transform: uppercase
+      text-decoration: underline
+.card-body-client-assessment-history
+  .card-assessment-record-info
+    border-color: $white
+    padding: 0 1.5rem
+  > .row:nth-child(2)
+    padding: 0 2rem
+  .data-grid-client-assessment-history
+    width: 100%
+    padding: 2rem 1.5rem
+    border: none
+  #no-data
+    margin-left: 3.5rem
+
 //**************************
 //  ClientAddEditForm
 //**************************

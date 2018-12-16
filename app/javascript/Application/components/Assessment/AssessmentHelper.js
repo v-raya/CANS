@@ -1,4 +1,5 @@
 import { getCurrentIsoDate } from '../../util/dateHelper'
+import moment from 'moment'
 
 export const AssessmentType = Object.freeze({
   initial: 'INITIAL',
@@ -95,4 +96,17 @@ export function getDisplayAssessmentStatus(status) {
     default:
       return 'Updated'
   }
+}
+
+export function sortAssessmentsByDate(assessments, sortCreatedTimestampOnly, direction = 'asc') {
+  const newAssessmentList = assessments.map(assessment => {
+    const timestamp = sortCreatedTimestampOnly
+      ? moment(assessment.created_timestamp)
+      : moment(assessment.updated_timestamp || assessment.created_timestamp)
+    return { ...assessment, timestamp }
+  })
+  newAssessmentList.sort((left, right) => {
+    return direction === 'asc' ? left.timestamp.diff(right.timestamp) : right.timestamp.diff(left.timestamp)
+  })
+  return newAssessmentList
 }
