@@ -1,4 +1,4 @@
-@Library('jenkins-pipeline-utils@cleanup-spike') _
+@Library('jenkins-pipeline-utils') _
 
 def app
 DOCKER_REGISTRY_CREDENTIALS_ID = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
@@ -200,7 +200,6 @@ def updateIntegrationManifest() {
 
 def cleanupStage() {
   stage('Cleanup') {
-    sh "ls -al"
     sh "docker-compose -f docker-compose.ci.yml down"
     cleanWs()
   }
