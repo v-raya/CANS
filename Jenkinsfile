@@ -200,6 +200,7 @@ def updateIntegrationManifest() {
 
 def cleanupStage() {
   stage('Cleanup') {
+    sh "ls -al"
     sh "docker-compose -f docker-compose.ci.yml down"
     cleanWs()
   }
