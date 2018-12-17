@@ -8,6 +8,7 @@ const ClientAssessmentHistoryLink = ({ original }) => {
     key: original.id,
     linkText: '',
     navFrom: original.navFrom,
+    userId: original.userId,
   }
   return original.id ? <AssessmentLink {...props} /> : null
 }

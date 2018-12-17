@@ -40,7 +40,9 @@ class ClientAssessmentHistory extends PureComponent {
   }
 
   renderAssessmentsTable(assessments) {
-    return <ClientAssessmentHistoryTable assessments={assessments} navFrom={this.props.navFrom} />
+    return (
+      <ClientAssessmentHistoryTable assessments={assessments} navFrom={this.props.navFrom} userId={this.props.userId} />
+    )
   }
 
   render() {

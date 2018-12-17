@@ -33,7 +33,13 @@ class AssessmentRecordInfo extends Component {
           <div className={'assessment-info'}>
             {recordHeader}
             <p>
-              <AssessmentLink assessment={assessment} navFrom={this.props.navFrom} key={id} linkText={'CANS'} />
+              <AssessmentLink
+                assessment={assessment}
+                navFrom={this.props.navFrom}
+                key={id}
+                linkText={'CANS'}
+                userId={this.props.userId}
+              />
             </p>
             <p>{`${actionVerb} on ${formattedTimestamp} by`}</p>
             <p>{updatedByName}</p>
@@ -92,6 +98,11 @@ AssessmentRecordInfo.propTypes = {
   assessment: PropTypes.object.isRequired,
   header: PropTypes.string.isRequired,
   navFrom: PropTypes.string.isRequired,
+  userId: PropTypes.string,
+}
+
+AssessmentRecordInfo.defaultProps = {
+  userId: null,
 }
 
 export default AssessmentRecordInfo

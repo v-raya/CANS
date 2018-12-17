@@ -11,7 +11,7 @@ class AssessmentLink extends PureComponent {
     const formattedEventDate = isoToLocalDate(eventDate)
     const clientId = person.identifier
     const assessmentId = id
-    const linkUrl = historyRecordUrlSwitcher(this.props.navFrom, null, clientId, assessmentId)
+    const linkUrl = historyRecordUrlSwitcher(this.props.navFrom, this.props.userId, clientId, assessmentId)
 
     return (
       <Link to={linkUrl} className={'underlined'}>
@@ -25,6 +25,9 @@ AssessmentLink.propTypes = {
   assessment: PropTypes.object.isRequired,
   linkText: PropTypes.string.isRequired,
   navFrom: PropTypes.string.isRequired,
+  userId: PropTypes.string,
 }
-
+AssessmentLink.defaultProps = {
+  userId: null,
+}
 export default AssessmentLink

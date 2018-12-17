@@ -21,7 +21,7 @@ class AddCansLink extends Component {
     return this.isDisabled() ? (
       this.renderLinkText()
     ) : (
-      <Link id={'add-cans-link'} to={`/clients/${clientIdentifier}/assessments`}>
+      <Link id={'add-cans-link'} to={`./${clientIdentifier}/assessments`}>
         {this.renderLinkText()}
       </Link>
     )
