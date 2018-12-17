@@ -1,4 +1,4 @@
-@Library('jenkins-pipeline-utils') _
+@Library('jenkins-pipeline-utils@cleanup-spike') _
 
 def app
 DOCKER_REGISTRY_CREDENTIALS_ID = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
