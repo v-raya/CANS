@@ -194,7 +194,7 @@ def deployToIntegrationStage() {
 
 def updateIntegrationManifest() {
   stage('Update Integration manifest') {
-    updateManifest("cans", "integration", GITHUB_CREDENTIALS_ID, APP_VERSION)
+    updateManifest("cans", "integration", GITHUB_CREDENTIALS_ID, env.APP_VERSION)
   }
 }
 
