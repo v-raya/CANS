@@ -348,15 +348,38 @@ module ResourceHelper
   def verify_radio_buttons_on_assessment_header
     find('#add-new-cans').click
     expect(page).to have_content 'CANS Communimetric Assessment Form'
-    find('#age-0-5-button', wait: 15).click
-    find('#has-caregiver-yes').click
-    find('#can-release-control').click
+    find('#age-0-5-button').click
+    find('#age-0-5-button').click
     substance_use_disorder_text = [
       'By selecting NO, Items 7, 48, and EC 41',
       '(Substance Use Disorder Items) from this CANS assessment',
       'will be redacted when printed.'
     ].join(' ')
+    current_date = Time.now.strftime('%m/%d/%Y')
+    expect(find('#assessment-date_input').value).to eq(current_date)
+    expect(page).to have_content('Assessment Conducted by', wait: 10)
+    expect(page).to have_css '.assessment-form-header-case-or-referral-number'
     expect(page).to have_content(substance_use_disorder_text, wait: 45)
+    expect(page).to have_css '.warning-text'
+    expect(page).to have_content('Age Range 0-5', wait: 10)
+    expect(page).to have_content('Caregiver Resources And Needs Domain', wait: 45)
+    find('#domain11-expand').click
+    expect(find('#input-can-release-no', visible: false).checked?).to be(true)
+    expect(find('#input-has-caregiver-yes', visible: false).checked?).to be(true)
+    expect(find('#SUBSTANCE_USE_CAREGIVERCheckbox')\
+      .find('input', visible: false).checked?).to be(true)
+  end
+
+  def validate_domain_radio_and_chevron
+    find('#domain5-expand').click
+    find('#IMPULSIVITY_HYPERACTIVITY-item-expand').click
+    find('#input-IMPULSIVITY_HYPERACTIVITY-0-select').click
+    expect(page).to have_content('Item Description', wait: 10)
+    find('#IMPULSIVITY_HYPERACTIVITY-item-expand').click
+    expect(page).not_to have_content('Item Description', wait: 10)
+    progress_bar_value = page.all('span.progress-value', match: :first).map(&:text)
+    progress_bar_value.each { |element| @total_radio_selected.push(element) }
+    expect(progress_bar_value).to eq(@total_radio_selected)
   end
 
   def save_assessment_form_age_0_5(client_identifier)

@@ -6,6 +6,7 @@ require 'feature'
 feature 'Case Worker Functionality' do
   before(:all) do
     @domain_total_count = []
+    @total_radio_selected = []
   end
 
   after(:all) do
@@ -27,11 +28,14 @@ feature 'Case Worker Functionality' do
     visit_client_profile(CLIENT_NAME)
     expect(page).to have_content('ADD CANS')
     verify_radio_buttons_on_assessment_header
-    fetch_challenges_domain
+    validate_domain_radio_and_chevron
     click_button 'Save'
     visit_client_profile(CLIENT_NAME)
     visit_client_profile(CLIENT_NAME)
     expect(page).to have_content('In Progress')
+    current_date = Time.now.strftime('%m/%d/%Y')
+    find(:link, current_date + ' CANS', match: :first).click
+    expect(page).to have_content 'CANS Communimetric Assessment Form'
   end
 
   def fill_out_form_then_check_domain_total
