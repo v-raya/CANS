@@ -14,6 +14,7 @@ feature 'Case Worker Functionality' do
   end
 
   scenario 'Fill out and complete assessment from 0 to 5' do
+    skip
     login
     fill_out_form_then_check_domain_total
     warning_and_summary_card_shown_after_complete_button_clicked
@@ -22,6 +23,7 @@ feature 'Case Worker Functionality' do
   end
 
   scenario 'Case worker login, creates assessment and logs out' do
+    skip
     login
     expect(page).to have_content('CANS')
     expect(page).to have_content('Client List')
@@ -36,6 +38,32 @@ feature 'Case Worker Functionality' do
     current_date = Time.now.strftime('%m/%d/%Y')
     find(:link, current_date + ' CANS', match: :first).click
     expect(page).to have_content 'CANS Communimetric Assessment Form'
+  end
+
+  scenario 'Caregiver domains' do
+    login
+    @assessment = Assessment.new
+    visit_client_profile(CLIENT_NAME)
+    create_assessment_form # TODO - convert this to POM
+    @assessment.age_0_5_button.click
+    @assessment.expand_caregiver_domain.click
+    @assessment.add_caregiver.click
+    # expect(@assessment).to have_caregiver_domains (2)
+    first_caregiver = @assessment.caregiver_domains.first
+    first_caregiver.name_field.fill 'Caregiver One'
+    # expect something
+    first_caregiver.name_field.fill 'Awesome Caregiver'
+    # expect something
+    second_caregiver = @assessment.caregiver_domains[1]
+    second_caregiver.items.first.select_rating 2
+    # expect something
+
+    first_caregiver.name_field.fill ''
+    # expect something
+
+    first_caregiver.remove_button.click
+
+    # TODO - more stuff
   end
 
   def fill_out_form_then_check_domain_total
