@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'page_objects/Assessment'
 require 'acceptance_helper'
 require 'feature'
 
@@ -39,10 +39,11 @@ feature 'Case Worker Functionality' do
   end
 
   def fill_out_form_then_check_domain_total
+    @assessment = Assessment.new
     visit_client_profile(CLIENT_NAME)
     expect(page).to have_content('ADD CANS')
     create_assessment_form
-    find('#age-0-5-button').click # avoid stuck
+    @assessment.age_0_5_button.click # avoid stuck
     find('#age-0-5-button').click
     expect(page.find('#age-0-5-button')[:class].include?('age-button-selected')).to be(true)
     expect(page).to have_content('Age Range 0-5')
