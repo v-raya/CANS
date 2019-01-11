@@ -3,6 +3,7 @@ import { navigation, BreadCrumbLinks, dashboards } from '../../../util/constants
 import { userDashboardChecker } from '../../../util/userDashboardChecker'
 import { formatName, selfChecker, crumbsGroup, selfCheckerKeyWords } from './BreadCrumbHelper'
 import { Link } from 'react-router-dom'
+import { AssessmentStatus } from '../../Assessment/'
 
 export const homeCrumbHandler = (user, elements) => {
   let url
@@ -65,8 +66,16 @@ export const addChildProfileCrumbIfNeeded = (elements, navigateTo, client) => {
   }
 } // search and client dashboard could share this logic becasue they just need 3 parameters
 
-export const addStaffAssessmentFormCrumbIfNeeded = (elements, navigateTo, client, staffPerson, assessmentId) => {
-  if (navigateTo === navigation.STAFF_CHANGELOG) {
+export const addStaffAssessmentFormCrumbIfNeeded = (
+  elements,
+  navigateTo,
+  client,
+  staffPerson,
+  assessmentId,
+  status
+) => {
+  if (status === AssessmentStatus.deleted) {
+  } else if (navigateTo === navigation.STAFF_CHANGELOG) {
     elements.push(
       <Link to={`/staff/${staffPerson.identifier}/clients/${client.identifier}/assessments/${assessmentId}`}>
         {BreadCrumbLinks.CANS_ASSESSMENT_FORM}
@@ -75,8 +84,9 @@ export const addStaffAssessmentFormCrumbIfNeeded = (elements, navigateTo, client
   }
 } // only when staff nav to changlog then show the link type asform
 
-export const addAssessmentFormCrumbIfNeeded = (elements, navigateTo, client, assessmentId, staffPerson) => {
-  if (selfChecker(navigateTo, selfCheckerKeyWords.ASSESSMENT_EDIT)) {
+export const addAssessmentFormCrumbIfNeeded = (elements, navigateTo, client, assessmentId, status) => {
+  if (status === AssessmentStatus.deleted) {
+  } else if (selfChecker(navigateTo, selfCheckerKeyWords.ASSESSMENT_EDIT)) {
     elements.push(BreadCrumbLinks.CANS_ASSESSMENT_FORM)
   } else if (selfChecker(navigateTo, selfCheckerKeyWords.ASSESSMENT_ADD)) {
     elements.push(BreadCrumbLinks.CANS_ASSESSMENT_FORM)

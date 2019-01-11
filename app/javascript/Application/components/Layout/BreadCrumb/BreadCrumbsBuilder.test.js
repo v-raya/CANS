@@ -66,6 +66,18 @@ describe('<BreadCrumbsBuilder />', () => {
       const component = wrapper(supervisorMainFlow, navigation.STAFF_CHILD_PROFILE)
       expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CLIENT_LIST)).toBe(false)
     })
+
+    it('will not render the AssessmentFrom BreadCrumbs when supervisor nav to changelog with deleted status', () => {
+      supervisorMainFlow.url = 'someurl/changelog/DELETED'
+      const component = wrapper(supervisorMainFlow, 'STAFF_CHANGELOG')
+      expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CANS_ASSESSMENT_FORM)).toBe(false)
+    })
+
+    it('will not render the AssessmentFrom BreadCrumbs when supervisor nav to changelog with deleted status by Search', () => {
+      supervisorMainFlow.url = 'someurl/changelog/DELETED'
+      const component = wrapper(supervisorMainFlow, 'SEARCH_CHANGELOG')
+      expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CANS_ASSESSMENT_FORM)).toBe(false)
+    })
   })
 
   describe('caseWorker', () => {
@@ -87,6 +99,18 @@ describe('<BreadCrumbsBuilder />', () => {
         'Change Log',
       ])
     })
+
+    it('will not render the AssessmentFrom BreadCrumbs when caseWorker nav to changelog with deleted status', () => {
+      clientFlow.url = 'someurl/changelog/DELETED'
+      const component = wrapper(clientFlow, 'ASSESSMENT_CHANGELOG')
+      expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CANS_ASSESSMENT_FORM)).toBe(false)
+    })
+
+    it('will not render the AssessmentFrom BreadCrumbs when caseWorker nav to changelog with deleted status by Search', () => {
+      clientFlow.url = 'someurl/changelog/DELETED'
+      const component = wrapper(clientFlow, 'SEARCH_CHANGELOG')
+      expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CANS_ASSESSMENT_FORM)).toBe(false)
+    })
   })
 
   describe('none case worker', () => {
@@ -107,6 +131,12 @@ describe('<BreadCrumbsBuilder />', () => {
     it('will not render Client List BreadCrumb when a noneCaseWorker nav to client profile', () => {
       const component = wrapper(searchFlow, navigation.SEARCH_CHILD_PROFILE)
       expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CLIENT_LIST)).toBe(false)
+    })
+
+    it('will not render the AssessmentFrom BreadCrumbs when noneCaseWorker nav to changelog with deleted status', () => {
+      searchFlow.url = 'someurl/changelog/DELETED'
+      const component = wrapper(searchFlow, 'SEARCH_CHANGELOG')
+      expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CANS_ASSESSMENT_FORM)).toBe(false)
     })
   })
 })

@@ -41,4 +41,8 @@ describe('#render', () => {
   it('renders route when use search to access client list', () => {
     testRoute('/search/clients/:clientId', navigation.SEARCH_CHILD_PROFILE)
   })
+
+  it('renders a route when use search to access changelog', () => {
+    testRoute('/search/clients/:clientId/assessments/:id/changelog/:status', navigation.SEARCH_CHANGELOG)
+  })
 })

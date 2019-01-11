@@ -82,6 +82,7 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
+  gem 'site_prism'
   gem 'timecop'
 end
 

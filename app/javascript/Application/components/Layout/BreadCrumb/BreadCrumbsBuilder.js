@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { navigation } from '../../../util/constants'
 import * as Pipeline from './BreadCrumbPipeline'
 import BreadCrumb from './BreadCrumb'
-import { removeDuplicateBreadCrumb } from './BreadCrumbHelper'
+import { removeDuplicateBreadCrumb, selfCheckerKeyWords } from './BreadCrumbHelper'
 
 class BreadCrumbsBuilder extends React.Component {
   constructor(props) {
@@ -11,9 +11,16 @@ class BreadCrumbsBuilder extends React.Component {
     this.state = {}
   }
 
+  getAssessmentStatusWhenNavToChangeLog = url => {
+    const urlArray = url.split('/')
+    const lastTwoKeyWords = urlArray.slice(-2)
+    return lastTwoKeyWords[0] === selfCheckerKeyWords.CHANGELOG.toLowerCase() ? lastTwoKeyWords[1] : null
+  }
+
   prepareNavigationElements() {
     const elements = []
     const { navigateTo, client, url, assessmentId, user, subordinate } = this.props
+    const status = this.getAssessmentStatusWhenNavToChangeLog(url)
     Pipeline.homeCrumbHandler(user, elements)
     Pipeline.addStaffListIfNeeded(elements, navigateTo)
     if (subordinate) {
@@ -28,7 +35,7 @@ class BreadCrumbsBuilder extends React.Component {
     }
     if (client) {
       Pipeline.addChildProfileCrumbIfNeeded(elements, navigateTo, client)
-      Pipeline.addAssessmentFormCrumbIfNeeded(elements, navigateTo, client, assessmentId)
+      Pipeline.addAssessmentFormCrumbIfNeeded(elements, navigateTo, client, assessmentId, status)
     }
 
     if (subordinate) {
@@ -37,7 +44,8 @@ class BreadCrumbsBuilder extends React.Component {
         navigateTo,
         client,
         this.props.subordinate.staff_person,
-        assessmentId
+        assessmentId,
+        status
       )
     }
 

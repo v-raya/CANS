@@ -85,12 +85,7 @@ class Ellipsis extends PureComponent {
 
   viewChangeLogButton() {
     return (
-      <button
-        className={'view-change-log-button'}
-        onClick={this.changeLogSelect}
-        role={'menuitem'}
-        aria-label="View Change Log Button"
-      >
+      <button className={'view-change-log-button'} onClick={this.changeLogSelect} role={'menuitem'}>
         View CANS Change Log
       </button>
     )
@@ -98,12 +93,7 @@ class Ellipsis extends PureComponent {
 
   deleteAssessmentButton() {
     return this.canDeleteAssessment() ? (
-      <button
-        className={'delete-assessment-button'}
-        onClick={this.deleteItem}
-        role={'menuitem'}
-        aria-label="Delete Assessment Button"
-      >
+      <button className={'delete-assessment-button'} onClick={this.deleteItem} role={'menuitem'}>
         Delete CANS
       </button>
     ) : null
@@ -112,11 +102,11 @@ class Ellipsis extends PureComponent {
   render() {
     const { isPopOverOpen, redirection } = this.state
     const { shouldRedirect } = redirection
-    const { clientId, assessmentId } = this.props
+    const { clientId, assessmentId, assessmentStatus } = this.props
 
     if (shouldRedirect) {
       const { inheritUrl } = this.props
-      const pathname = `${inheritUrl}/clients/${clientId}/assessments/${assessmentId}/changelog`
+      const pathname = `${inheritUrl}/clients/${clientId}/assessments/${assessmentId}/changelog/${assessmentStatus}`
       const redirectProps = { pathname }
 
       return <Redirect push to={redirectProps} />

@@ -93,11 +93,11 @@ describe('<Router />', () => {
     })
 
     it('renders a route for supervisor to access changelog', () => {
-      testRoute('/staff/:staffId/clients/:clientId/assessments/:id/changelog', navigation.STAFF_CHANGELOG)
+      testRoute('/staff/:staffId/clients/:clientId/assessments/:id/changelog/:status', navigation.STAFF_CHANGELOG)
     })
 
     it('renders a route for access changelog', () => {
-      testRoute('/clients/:clientId/assessments/:id/changelog', navigation.ASSESSMENT_CHANGELOG)
+      testRoute('/clients/:clientId/assessments/:id/changelog/:status', navigation.ASSESSMENT_CHANGELOG)
     })
   })
 })

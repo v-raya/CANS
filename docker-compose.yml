@@ -5,12 +5,16 @@ services:
     hostname: db2data
     ports:
       - ${DB_CMS_DB2_PORT}:50000
+    networks:
+      - cans
 
   postgres:
     image: cwds/postgresql_data:0.9.4_680-RC
     hostname: postgresql_data
     ports:
       - ${POSTGRES_PORT}:5432
+    networks:
+      - cans
     environment:
       POSTGRES_PORT: ${POSTGRES_PORT}
 
@@ -20,6 +24,8 @@ services:
     ports:
       - ${PERRY_PORT}:8080
       - ${PERRY_ADMIN_PORT}:9082
+    networks:
+      - cans
     environment:
       PERRY_PORT: ${PERRY_PORT}
       DEV_MODE: ${DEV_MODE}
@@ -38,6 +44,8 @@ services:
       - elasticsearch
     expose:
       - 8080
+    networks:
+      - cans
     environment:
       SHIRO_CONFIG_PATH: /opt/cwds-dora/config/shiro.ini
       ES_HOST: elasticsearch
@@ -49,8 +57,6 @@ services:
       XPACK_USER: elastic
       XPACK_PASSWORD: changeme
       PERRY_VALIDATION_URL: http://perry:8080/perry/authn/validate
-    networks:
-      - cans
 
   elasticsearch:
     image: cwds/elasticsearch_xpack_data:latest
@@ -75,7 +81,8 @@ services:
     restart: on-failure
     ports:
       - ${CANS_API_PORT}:8080
-
+    networks:
+      - cans
     environment:
       LOGIN_URL: ${LOGIN_URL}
       LOGOUT_URL: ${LOGOUT_URL}
@@ -101,6 +108,8 @@ services:
       - dora
     ports:
       - 3000:3000
+    networks:
+      - cans
     environment:
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       PERRY_BASE_URL: 'http://${HOST}:${PERRY_PORT}/perry'
@@ -114,9 +123,14 @@ services:
     build:
       context: .
       dockerfile: docker/test/Dockerfile
+    networks:
+      - cans
     volumes:
       - type: bind
         source: ./spec
         target: /app/spec
     environment:
       CANS_WEB_BASE_URL: ${CANS_WEB_BASE_URL}
+
+networks:
+  cans:

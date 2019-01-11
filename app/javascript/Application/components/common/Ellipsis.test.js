@@ -80,10 +80,23 @@ describe('<Ellipsis />', () => {
       })
 
       describe('view change log menu item', () => {
+        let changeLogMenuItem
+        beforeEach(() => {
+          changeLogMenuItem = popoverBody.find('button.view-change-log-button')
+        })
+
+        describe('button props', () => {
+          it('renders a button with the correct props', () => {
+            expect(changeLogMenuItem.props().className).toBe('view-change-log-button')
+            expect(typeof changeLogMenuItem.props().onClick).toBe('function')
+            expect(changeLogMenuItem.props().role).toBe('menuitem')
+          })
+        })
+
         describe('in progress assessment', () => {
           it('renders the menu item', () => {
-            expect(popoverBody.find('button.view-change-log-button').exists()).toBe(true)
-            expect(popoverBody.find('button.view-change-log-button').text()).toBe('View CANS Change Log')
+            expect(changeLogMenuItem.exists()).toBe(true)
+            expect(changeLogMenuItem.text()).toBe('View CANS Change Log')
           })
         })
 
@@ -91,8 +104,9 @@ describe('<Ellipsis />', () => {
           it('renders the menu item', () => {
             const wrapper = getWrapper(AssessmentStatus.completed)
             const popoverBody = wrapper.find(PopoverBody)
-            expect(popoverBody.find('button.view-change-log-button').exists()).toBe(true)
-            expect(popoverBody.find('button.view-change-log-button').text()).toBe('View CANS Change Log')
+            const changeLogMenuItem = popoverBody.find('button.view-change-log-button')
+            expect(changeLogMenuItem.exists()).toBe(true)
+            expect(changeLogMenuItem.text()).toBe('View CANS Change Log')
           })
         })
 
@@ -100,18 +114,32 @@ describe('<Ellipsis />', () => {
           it('renders the menu item', () => {
             const wrapper = getWrapper(AssessmentStatus.deleted)
             const popoverBody = wrapper.find(PopoverBody)
-            expect(popoverBody.find('button.view-change-log-button').exists()).toBe(true)
-            expect(popoverBody.find('button.view-change-log-button').text()).toBe('View CANS Change Log')
+            const changeLogMenuItem = popoverBody.find('button.view-change-log-button')
+            expect(changeLogMenuItem.exists()).toBe(true)
+            expect(changeLogMenuItem.text()).toBe('View CANS Change Log')
           })
         })
       })
 
       describe('delete cans menu item', () => {
+        let deleteMenuItem
+        beforeEach(() => {
+          deleteMenuItem = popoverBody.find('button.delete-assessment-button')
+        })
+
+        describe('button props', () => {
+          it('renders a button with the correct props', () => {
+            expect(deleteMenuItem.props().className).toBe('delete-assessment-button')
+            expect(typeof deleteMenuItem.props().onClick).toBe('function')
+            expect(deleteMenuItem.props().role).toBe('menuitem')
+          })
+        })
+
         describe('assessment with delete permission', () => {
           describe('in progress assessment', () => {
             it('renders the menu item', () => {
-              expect(popoverBody.find('button.delete-assessment-button').exists()).toBe(true)
-              expect(popoverBody.find('button.delete-assessment-button').text()).toBe('Delete CANS')
+              expect(deleteMenuItem.exists()).toBe(true)
+              expect(deleteMenuItem.text()).toBe('Delete CANS')
             })
           })
 
@@ -119,8 +147,9 @@ describe('<Ellipsis />', () => {
             it('renders the menu item', () => {
               const wrapper = getWrapper(AssessmentStatus.completed)
               const popoverBody = wrapper.find(PopoverBody)
-              expect(popoverBody.find('button.delete-assessment-button').exists()).toBe(true)
-              expect(popoverBody.find('button.delete-assessment-button').text()).toBe('Delete CANS')
+              const deleteMenuItem = popoverBody.find('button.delete-assessment-button')
+              expect(deleteMenuItem.exists()).toBe(true)
+              expect(deleteMenuItem.text()).toBe('Delete CANS')
             })
           })
 
@@ -128,7 +157,8 @@ describe('<Ellipsis />', () => {
             it('does not render the menu item', () => {
               const wrapper = getWrapper(AssessmentStatus.deleted)
               const popoverBody = wrapper.find(PopoverBody)
-              expect(popoverBody.find('button.delete-assessment-button').exists()).toBe(false)
+              const deleteMenuItem = popoverBody.find('button.delete-assessment-button')
+              expect(deleteMenuItem.exists()).toBe(false)
             })
           })
         })
@@ -138,7 +168,8 @@ describe('<Ellipsis />', () => {
             it('does not render the menu item', () => {
               const wrapper = getWrapper(AssessmentStatus.inProgress, false)
               const popoverBody = wrapper.find(PopoverBody)
-              expect(popoverBody.find('button.delete-assessment-button').exists()).toBe(false)
+              const deleteMenuItem = popoverBody.find('button.delete-assessment-button')
+              expect(deleteMenuItem.exists()).toBe(false)
             })
           })
 
@@ -146,7 +177,8 @@ describe('<Ellipsis />', () => {
             it('does not render the menu item', () => {
               const wrapper = getWrapper(AssessmentStatus.completed, false)
               const popoverBody = wrapper.find(PopoverBody)
-              expect(popoverBody.find('button.delete-assessment-button').exists()).toBe(false)
+              const deleteMenuItem = popoverBody.find('button.delete-assessment-button')
+              expect(deleteMenuItem.exists()).toBe(false)
             })
           })
 
@@ -154,7 +186,8 @@ describe('<Ellipsis />', () => {
             it('does not render the menu item', () => {
               const wrapper = getWrapper(AssessmentStatus.deleted, false)
               const popoverBody = wrapper.find(PopoverBody)
-              expect(popoverBody.find('button.delete-assessment-button').exists()).toBe(false)
+              const deleteMenuItem = popoverBody.find('button.delete-assessment-button')
+              expect(deleteMenuItem.exists()).toBe(false)
             })
           })
         })
@@ -164,13 +197,14 @@ describe('<Ellipsis />', () => {
     describe('Redirect', () => {
       describe('when the View CANS Change Log menu item is clicked', () => {
         it('renders a Redirect component with the correct props', () => {
-          const viewCansChangeLogMenuItem = wrapper.find(PopoverBody).find('button.view-change-log-button')
-          viewCansChangeLogMenuItem.simulate('click', {
+          const changeLogMenuItem = wrapper.find(PopoverBody).find('button.view-change-log-button')
+          changeLogMenuItem.simulate('click', {
             target: { className: 'view-change-log-button' },
           })
-          expect(wrapper.find(Redirect).exists()).toBe(true)
-          expect(wrapper.find(Redirect).props().to).toEqual({
-            pathname: '/staff/0X5/clients/C76Jg230X3/assessments/1234/changelog',
+          const redirect = wrapper.find(Redirect)
+          expect(redirect.exists()).toBe(true)
+          expect(redirect.props().to).toEqual({
+            pathname: '/staff/0X5/clients/C76Jg230X3/assessments/1234/changelog/IN_PROGRESS',
           })
         })
       })
@@ -179,21 +213,21 @@ describe('<Ellipsis />', () => {
     describe('Delete CANS Warning Modal', () => {
       describe('when the Delete CANS menu item is clicked', () => {
         it('renders a PageModal component with the correct props', () => {
-          const deleteCansMenuItem = wrapper.find(PopoverBody).find('button.delete-assessment-button')
-          deleteCansMenuItem.simulate('click', {
+          const deleteMenuItem = wrapper.find(PopoverBody).find('button.delete-assessment-button')
+          deleteMenuItem.simulate('click', {
             target: { className: 'delete-assessment-button' },
           })
-          expect(wrapper.find(PageModal).exists()).toBe(true)
-          expect(wrapper.find(PageModal).props().isOpen).toBe(true)
-          expect(wrapper.find(PageModal).props().title).toBe('Deleting CANS Warning')
-          expect(wrapper.find(PageModal).props().warningDescription).toEqual(
-            <div>You are attempting to delete this CANS.</div>
-          )
-          expect(wrapper.find(PageModal).props().description).toBe('This cannot be undone.')
-          expect(wrapper.find(PageModal).props().removeButtonLabel).toBe('Delete CANS')
-          expect(wrapper.find(PageModal).props().cancelButtonLabel).toBe('Cancel')
-          expect(typeof wrapper.find(PageModal).props().onCancel).toEqual('function')
-          expect(typeof wrapper.find(PageModal).props().onRemove).toEqual('function')
+          const pageModal = wrapper.find(PageModal)
+          const pageModalProps = pageModal.props()
+          expect(pageModal.exists()).toBe(true)
+          expect(pageModalProps.isOpen).toBe(true)
+          expect(pageModalProps.title).toBe('Deleting CANS Warning')
+          expect(pageModalProps.warningDescription).toEqual(<div>You are attempting to delete this CANS.</div>)
+          expect(pageModalProps.description).toBe('This cannot be undone.')
+          expect(pageModalProps.removeButtonLabel).toBe('Delete CANS')
+          expect(pageModalProps.cancelButtonLabel).toBe('Cancel')
+          expect(typeof pageModalProps.onCancel).toEqual('function')
+          expect(typeof pageModalProps.onRemove).toEqual('function')
         })
       })
 
@@ -201,8 +235,8 @@ describe('<Ellipsis />', () => {
         describe('when the cancel button is clicked', () => {
           it('calls the handleWarningCancel method and sets state', () => {
             const spy = jest.spyOn(wrapper.instance(), 'handleWarningCancel')
-            const deleteCansMenuItem = wrapper.find(PopoverBody).find('button.delete-assessment-button')
-            deleteCansMenuItem.simulate('click', {
+            const deleteMenuItem = wrapper.find(PopoverBody).find('button.delete-assessment-button')
+            deleteMenuItem.simulate('click', {
               target: { className: 'delete-assessment-button' },
             })
             const cancelButton = wrapper
@@ -223,8 +257,8 @@ describe('<Ellipsis />', () => {
             const deleteServiceSpy = jest.spyOn(AssessmentService, 'delete')
             deleteServiceSpy.mockReturnValue(Promise.resolve(deletedAssessment))
             const closeModalSpy = jest.spyOn(wrapper.instance(), 'closeModal')
-            const deleteCansMenuItem = wrapper.find(PopoverBody).find('button.delete-assessment-button')
-            deleteCansMenuItem.simulate('click', {
+            const deleteMenuItem = wrapper.find(PopoverBody).find('button.delete-assessment-button')
+            deleteMenuItem.simulate('click', {
               target: { className: 'delete-assessment-button' },
             })
             const deleteButton = wrapper
