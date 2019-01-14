@@ -13,7 +13,7 @@ feature 'Non Case Worker Functionality' do
     logout
   end
 
-  scenario 'Non Case worker login, creates assessment and logs out' do
+  scenario 'Non Case worker login, search client, select it and logs out' do
     login non_caseworker_json
     expect(page).to have_content('To Start a CANS Assessment, Search and Select the Child')
     @form.close_top_alert.click
