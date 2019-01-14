@@ -75,6 +75,7 @@ end
 group :test do
   gem 'axe-matchers'
   gem 'capybara', '>= 2.15', '< 4.0'
+  gem 'capybara-screenshot'
   gem 'chromedriver-helper'
   gem 'faker'
   gem 'nyan-cat-formatter'

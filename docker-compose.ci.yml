@@ -139,6 +139,7 @@ services:
     image: cans-cans-test:latest
     volumes:
       - ./spec/.:/app/spec
+      - ./regression-report/.:/app/regression-report
     environment:
       CANS_WEB_BASE_URL: 'cans-web:3000/cans'
     tty: true

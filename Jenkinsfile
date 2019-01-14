@@ -181,11 +181,24 @@ def regressionTestStage(url) {
         string(credentialsId: 'cans-non-caseworker-username', variable: 'NON_CASEWORKER_USERNAME'),
         string(credentialsId: 'cans-non-caseworker-password', variable: 'NON_CASEWORKER_PASSWORD'),
         string(credentialsId: 'cans-non-caseworker-verification-code', variable: 'NON_CASEWORKER_VERIFICATION_CODE'),
-        ]) {
+        ]) {        
         sh "docker-compose -f docker-compose.ci.yml up -d --build cans-test"
-        sh "docker-compose -f docker-compose.ci.yml exec -T --env NON_CASEWORKER_USERNAME=$NON_CASEWORKER_USERNAME --env NON_CASEWORKER_PASSWORD=$NON_CASEWORKER_PASSWORD --env NON_CASEWORKER_VERIFICATION_CODE=$NON_CASEWORKER_VERIFICATION_CODE --env SUPERVISOR_USERNAME=$SUPERVISOR_USERNAME --env SUPERVISOR_PASSWORD=$SUPERVISOR_PASSWORD --env SUPERVISOR_VERIFICATION_CODE=$SUPERVISOR_VERIFICATION_CODE --env CASEWORKER_USERNAME=$CASEWORKER_USERNAME --env CASEWORKER_PASSWORD=$CASEWORKER_PASSWORD --env CASEWORKER_VERIFICATION_CODE=$CASEWORKER_VERIFICATION_CODE --env REGRESSION_TEST=true --env CANS_WEB_BASE_URL=${url} cans-test bundle exec rspec spec/regression"
+        try {
+          sh "docker-compose -f docker-compose.ci.yml exec -T --env NON_CASEWORKER_USERNAME=$NON_CASEWORKER_USERNAME --env NON_CASEWORKER_PASSWORD=$NON_CASEWORKER_PASSWORD --env NON_CASEWORKER_VERIFICATION_CODE=$NON_CASEWORKER_VERIFICATION_CODE --env SUPERVISOR_USERNAME=$SUPERVISOR_USERNAME --env SUPERVISOR_PASSWORD=$SUPERVISOR_PASSWORD --env SUPERVISOR_VERIFICATION_CODE=$SUPERVISOR_VERIFICATION_CODE --env CASEWORKER_USERNAME=$CASEWORKER_USERNAME --env CASEWORKER_PASSWORD=$CASEWORKER_PASSWORD --env CASEWORKER_VERIFICATION_CODE=$CASEWORKER_VERIFICATION_CODE --env REGRESSION_TEST=true --env CANS_WEB_BASE_URL=${url} cans-test bundle exec rspec spec/regression --format html --out regression-report/index.html"
+        } finally {
+          publishHTML([
+                   allowMissing         : true,
+                   alwaysLinkToLastBuild: true,
+                   keepAll              : true,
+                   reportDir            : 'regression-report',
+                   reportFiles          : 'index.html',
+                   reportName           : 'Regression Tests Report',
+                   reportTitles         : 'Regression Tests Report'
+          ])
+        }
       }
     }
+    
   }
 }
 
@@ -237,6 +250,7 @@ def updateIntegrationManifest() {
 
 def cleanupStage() {
   stage('Cleanup') {
+    sh "ls -la"
     sh "docker-compose -f docker-compose.ci.yml down"
     cleanWs()
   }

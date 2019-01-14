@@ -44,8 +44,8 @@ module ProdLoginHelper
   end
 
   def enter_verification_code(login_config)
-    return unless page.has_xpath?('//label[text()="Verification Code"]')
-    fill_in 'Verification Code', with: login_config[:verification_code]
+    return unless page.has_content?('Verification')
+    fill_in 'code', with: login_config[:verification_code]
     click_button 'validateButton'
   end
 end

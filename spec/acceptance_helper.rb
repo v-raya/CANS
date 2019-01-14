@@ -3,6 +3,7 @@
 require 'axe/rspec'
 require 'capybara'
 require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 require 'selenium/webdriver'
 require 'site_prism'
 require 'acceptance_helpers/resource_helper'
@@ -17,6 +18,12 @@ STAFF_NAME = 'Regression, QA02'
 def acceptance_helper
   return LoginHelper unless ENV.fetch('REGRESSION_TEST', false)
   ProdLoginHelper
+end
+
+def setup_output_format
+  return unless ENV.fetch('REGRESSION_TEST', false)
+  Capybara::Screenshot::RSpec::REPORTERS['RSpec::Core::Formatters::HtmlFormatter'] =
+    Capybara::Screenshot::RSpec::HtmlEmbedReporter
 end
 
 Capybara.register_driver :selenium do |app|
@@ -34,6 +41,7 @@ Capybara.configure do |config|
   include acceptance_helper
   include ResourceHelper
   include CreateInProcessFormHelper
+  setup_output_format
   config.default_max_wait_time = 30
   config.default_driver = :selenium
   config.app_host = ENV.fetch('CANS_WEB_BASE_URL', 'http://localhost:3000')
