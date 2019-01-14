@@ -7,5 +7,3 @@ class ClientSearch < SitePrism::Page
   element :search_clients, 'input#downshift-0-input'
   element :search_clients_link, 'div.full-name', text: 'Case, Child 01 Test'
 end
-
-@form = ClientSearch.new
