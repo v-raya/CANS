@@ -2,11 +2,11 @@
 
 require 'acceptance_helper'
 require 'feature'
-require 'page_objects/assessment_form'
+require 'page_objects/client_search'
 
 feature 'Non Case Worker Functionality' do
   before(:all) do
-    @form = AssessmentForm.new
+    @form = ClientSearch.new
   end
 
   after(:all) do
