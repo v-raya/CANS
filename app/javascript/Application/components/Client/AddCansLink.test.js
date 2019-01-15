@@ -14,7 +14,7 @@ describe('<AddCansLink/>', () => {
 
   it('renders with <Link /> that navigates to /assessments', () => {
     const link = shallow(<AddCansLink clientIdentifier={'aaa'} disabled={'false'} />).find(Link)
-    expect(link.prop('to')).toBe('/clients/aaa/assessments')
+    expect(link.prop('to')).toBe('./aaa/assessments')
   })
 
   it('renders a span with the correct text', () => {

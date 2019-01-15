@@ -67,6 +67,11 @@ describe('<BreadCrumbsBuilder />', () => {
       expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CLIENT_LIST)).toBe(false)
     })
 
+    it('will not render Client List BreadCrumb when a supervisor nav to add new assessment', () => {
+      const component = wrapper(supervisorMainFlow, navigation.STAFF_ASSESSMENT_ADD)
+      expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CLIENT_LIST)).toBe(false)
+    })
+
     it('will not render the AssessmentFrom BreadCrumbs when supervisor nav to changelog with deleted status', () => {
       supervisorMainFlow.url = 'someurl/changelog/DELETED'
       const component = wrapper(supervisorMainFlow, 'STAFF_CHANGELOG')
@@ -130,6 +135,11 @@ describe('<BreadCrumbsBuilder />', () => {
 
     it('will not render Client List BreadCrumb when a noneCaseWorker nav to client profile', () => {
       const component = wrapper(searchFlow, navigation.SEARCH_CHILD_PROFILE)
+      expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CLIENT_LIST)).toBe(false)
+    })
+
+    it('will not render Client List BreadCrumb when a noneCaseWorker nav to add new assessment', () => {
+      const component = wrapper(searchFlow, navigation.SEARCH_ASSESSMENT_ADD)
       expect(textOfBreadCrumb(component).includes(BreadCrumbLinks.CLIENT_LIST)).toBe(false)
     })
 
