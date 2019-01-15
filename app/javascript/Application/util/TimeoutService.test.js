@@ -5,11 +5,13 @@ import { eventBus } from './eventBus'
 describe('TimeoutService', () => {
   it('window reloads when timeout cookie is not present', () => {
     global.location = jest.fn()
+    global.removeEventListener = jest.fn()
     global.setTimeout = jest.fn()
     global.location.reload = jest.fn()
     eventBus.post = jest.fn()
     timeoutService.run()
     expect(global.location.reload).toBeCalled()
+    expect(global.removeEventListener).toBeCalled()
     expect(global.setTimeout).not.toHaveBeenCalled()
     expect(eventBus.post).not.toBeCalled()
   })
