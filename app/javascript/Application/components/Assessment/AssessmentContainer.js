@@ -31,7 +31,7 @@ import { logPageAction } from '../../util/analytics'
 import { isAuthorized, isCompleteAssessmentAuthorized } from '../common/AuthHelper'
 
 const readOnlyMessageId = 'readonlyMessage'
-const alertMessage = e => {
+export const alertMessage = e => {
   e.preventDefault()
   return (e.returnValue = '')
 }
